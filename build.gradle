@@ -8,7 +8,7 @@ plugins {
 apply plugin: 'io.spring.dependency-management'
 
 group = 'com.prowidesoftware'
-version = '1.0.0'
+version = '1.0.1'
 description = 'Prowide Integrator sandbox'
 sourceCompatibility = '1.8'
 
@@ -31,7 +31,7 @@ dependencies {
     /////////////////////////////////////////////////////////////////////////
     
     implementation files('lib/pw-swift-integrator-SRU2018-develop-licensed.jar')
-    implementation files('lib/pw-swift-guitools-1.0.0.jar')
+    implementation files('lib/pw-swift-guitools-1.0.1.jar')
     
     /////////////////////////////////////////////////////////////////////////
 

@@ -44,6 +44,7 @@ public class Seeder {
                 "INVOICE PAYMENT AND PURCHASE\n" +
                 ":71A:OUR\n" +
                 "-}");
+        mt.getSwiftMessage().setUETR();
         repository.save(new MtSwiftMessage(mt.getSwiftMessage()));
     }
 

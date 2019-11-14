@@ -15,6 +15,8 @@ import com.prowidesoftware.swift.model.MtSwiftMessage;
 import com.prowidesoftware.swift.model.MxSwiftMessage;
 import com.prowidesoftware.swift.model.mt.MtType;
 import com.prowidesoftware.swift.model.mx.MxType;
+import com.prowidesoftware.swift.validator.ValidationEngine;
+import com.prowidesoftware.swift.validator.ValidationProblem;
 import javafx.util.Pair;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -198,8 +200,17 @@ public class SandboxController {
 		 * content. That client side validation (included in the GUI Tools module) does
 		 * not check for example network/semantic rules.
 		 */
+		ValidationEngine e = new ValidationEngine();
+		List<ValidationProblem> p;
+		if (msg.isMT()) {
+			p = e.validateMtMessage(msg.message());
+		} else {
+			p = e.validateMxMessage(msg.message());
+		}
+		log.info(ValidationProblem.printout(p));
+		e.dispose();
 
-		// save the creted message in the database
+		// save the created message in the database
 		repository.save(msg);
 		log.info("saved message id="+msg.getId());
 

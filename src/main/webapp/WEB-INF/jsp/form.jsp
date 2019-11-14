@@ -6,17 +6,17 @@
         <!-- DEPENDENCIES -->
         <script src="/webjars/jquery/jquery.min.js"></script>
         <script src="/webjars/jquery-ui/jquery-ui.min.js"></script>
-        <script src="/webjars/jquery-validation/1.17.0-1/jquery.validate.min.js"></script>
+        <script src="/webjars/jquery-validation/1.19.0/jquery.validate.min.js"></script>
         <script src="/webjars/jquery-mask-plugin/dist/jquery.mask.min.js"></script>
         <script src="/webjars/jquery.inputmask/3.3.7/min/jquery.inputmask.bundle.min.js"></script>
 
         <!-- GUI TOOLS -->
-        <link rel="stylesheet" type="text/css" href="/webjars/pw-swift-guitools/1.0.1/xsd-gui-lib.css" />
-        <link rel="stylesheet" type="text/css" href="/webjars/pw-swift-guitools/1.0.1/guitools-theme.css" />
-        <script src="/webjars/pw-swift-guitools/1.0.1/xsd-gui-lib-main.js"></script>
-        <script src="/webjars/pw-swift-guitools/1.0.1/xsd-gui-lib-validation.js"></script>
-        <script src="/webjars/pw-swift-guitools/1.0.1/vendor/jquery.datetimepicker-1.3.3.full.min.js"></script>
-        <link rel="stylesheet" type="text/css" href="/webjars/pw-swift-guitools/1.0.1/vendor/jquery.datetimepicker-1.3.3.css" />
+        <link rel="stylesheet" type="text/css" href="/webjars/pw-swift-guitools/1.0.2/xsd-gui-lib.css" />
+        <link rel="stylesheet" type="text/css" href="/webjars/pw-swift-guitools/1.0.2/guitools-theme.css" />
+        <script src="/webjars/pw-swift-guitools/1.0.2/xsd-gui-lib-main.js"></script>
+        <script src="/webjars/pw-swift-guitools/1.0.2/xsd-gui-lib-validation.js"></script>
+        <script src="/webjars/pw-swift-guitools/1.0.2/vendor/jquery.datetimepicker-1.3.3.full.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="/webjars/pw-swift-guitools/1.0.2/vendor/jquery.datetimepicker-1.3.3.css" />
 
         <!-- SAMPLE APP -->
         <script src="/js/forms.js"></script>

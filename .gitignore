@@ -19,6 +19,8 @@ gradle-app.setting
 # Idea
 .idea/workspace.xml
 .idea/gradle.xml
+.idea/codeStyles
+.idea/dbNavigator.xml
 *.iws
 sandbox.iml
 sandbox.ipr

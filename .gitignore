@@ -22,5 +22,5 @@ gradle-app.setting
 .idea/codeStyles/**
 .idea/dbnavigator.xml
 *.iws
-sandbox.iml
-sandbox.ipr
+*.iml
+*.ipr

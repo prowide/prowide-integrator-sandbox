@@ -30,8 +30,8 @@ dependencies {
     //
     /////////////////////////////////////////////////////////////////////////
     
-    implementation files('lib/pw-swift-integrator-SRU2019-develop-licensed.jar')
-    implementation files('lib/pw-swift-guitools-1.0.2.jar')
+    implementation files('../pw-swift-integrator/dist/build/libs/pw-swift-integrator-SRU2019-develop-licensed.jar')
+    implementation files('../pw-swift-guitools/build/libs/pw-swift-guitools-1.0.3.jar')
     
     /////////////////////////////////////////////////////////////////////////
 

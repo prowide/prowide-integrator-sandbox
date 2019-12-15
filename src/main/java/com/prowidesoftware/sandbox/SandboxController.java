@@ -17,6 +17,7 @@ import com.prowidesoftware.swift.model.mt.MtType;
 import com.prowidesoftware.swift.model.mx.MxType;
 import com.prowidesoftware.swift.validator.ValidationEngine;
 import com.prowidesoftware.swift.validator.ValidationProblem;
+import com.prowidesoftware.swift.validator.ValidationResult;
 import javafx.util.Pair;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -35,6 +36,7 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 @Controller
 public class SandboxController {
@@ -47,6 +49,23 @@ public class SandboxController {
 	public String index(Model model) {
 		model.addAttribute("messages", repository.findAll());
 		return "index";
+	}
+
+	private MtFormBuilder createMtBuilder() {
+		MtFormBuilder builder = new MtFormBuilder();
+		/*
+		 * The form builder supports several rendering and behaviour configurations.
+		 * For example you can use the line below to enable arabic characters, overwriting the default restrictions
+		 * that only admits SWIFT character sets
+		 */
+		//builder.getConfig().addCharacterRangeExtension(UnicodeBlockRange.Arabic);
+		return builder;
+	}
+
+	private MxFormBuilder createMxBuilder() {
+		MxFormBuilder builder = new MxFormBuilder();
+		//builder.getConfig().addCharacterRangeExtension(UnicodeBlockRange.Arabic);
+		return builder;
 	}
 
 	/**
@@ -91,11 +110,9 @@ public class SandboxController {
 		StringWriter out = new StringWriter();
 
 		if (StringUtils.equals("mx", standard)) {
-			MxFormBuilder builder = new MxFormBuilder();
-			builder.writeMXForm(MxType.valueOf(type), out, null);
+			createMxBuilder().writeMXForm(MxType.valueOf(type), out, null);
 		} else {
-			MtFormBuilder builder = new MtFormBuilder();
-			builder.writeMTForm(MtType.valueOf(type), out, null);
+			createMtBuilder().writeMTForm(MtType.valueOf(type), out, null);
 		}
 
 		mv.addObject("form", out);
@@ -125,8 +142,7 @@ public class SandboxController {
 				"-}");
 		ModelAndView mv = new ModelAndView("form");
 		StringWriter out = new StringWriter();
-		MtFormBuilder builder = new MtFormBuilder();
-		builder.writeMTForm(MtType.valueOf(mt.getMtId()), out, mt);
+		createMtBuilder().writeMTForm(MtType.valueOf(mt.getMtId()), out, mt);
 		mv.addObject("form", out);
 		return mv;
 	}
@@ -143,14 +159,12 @@ public class SandboxController {
 		if (msg.isMX()) {
 			mv.addObject("standard", "mx");
 			MxSwiftMessage mx = (MxSwiftMessage) msg;
-			MxFormBuilder builder = new MxFormBuilder();
-			builder.writeMXForm(MxType.valueOf(mx.getIdentifier()), out, mx);
+			createMxBuilder().writeMXForm(MxType.valueOf(mx.getIdentifier()), out, mx);
 
 		} else {
 			mv.addObject("standard", "mt");
 			MtSwiftMessage mt = (MtSwiftMessage) msg;
-			MtFormBuilder builder = new MtFormBuilder();
-			builder.writeMTForm(MtType.valueOf(mt.getMtId()), out, mt);
+			createMtBuilder().writeMTForm(MtType.valueOf(mt.getMtId()), out, mt);
 		}
 
 		mv.addObject("form", out);
@@ -168,10 +182,10 @@ public class SandboxController {
 		FormBuilder builder;
 		if (msg.isMX()) {
 			mv.addObject("standard", "mx");
-			builder = new MxFormBuilder();
+			builder = createMxBuilder();
 		} else {
 			mv.addObject("standard", "mt");
-			builder = new MtFormBuilder();
+			builder = createMtBuilder();
 		}
 		StringWriter out = new StringWriter();
 		builder.writeDetail(out, msg);
@@ -183,31 +197,54 @@ public class SandboxController {
 
     @PostMapping("/{standard}")
     protected String messageCreation(@PathVariable String standard, HttpServletRequest req) {
+
+		// get the id to check if this is a new message creation or an existing message repair
+		final String id = req.getParameter("id");
 		AbstractSwiftMessage msg;
-		if (StringUtils.equals("mx", standard)) {
-			msg = MxFormBuilder.map(req);
+
+		if (StringUtils.isNotBlank(id)) {
+			// we are updating an existing message
+			msg = repository.findById(new Long(id)).orElseThrow(() -> new ProwideException("Message with id=" + id + " not found"));
+			if (StringUtils.equals("mx", standard)) {
+				MxFormBuilder.map(req, (MxSwiftMessage) msg);
+			} else {
+				MtFormBuilder.map(req, (MtSwiftMessage) msg);
+			}
 		} else {
-			msg = MtFormBuilder.map(req);
+			// we are creating a new message
+			if (StringUtils.equals("mx", standard)) {
+				msg = MxFormBuilder.map(req);
+			} else {
+				msg = MtFormBuilder.map(req);
+			}
 		}
 		log.info("mapped message: "+msg);
 
 		/*
-		 * On a real application here you should be calling the validation engine
-		 * (from Prowide Integrator Validation module) in order to check the created
-		 * message is full standard compliance, sending the backend validation result
-		 * back to the form in case of errors. Notice the client side validation done
-		 * in the form is just a lightweight javascript check on mandatory fields and
-		 * content. That client side validation (included in the GUI Tools module) does
-		 * not check for example network/semantic rules.
+		 * On a real application here you might call this backend validation from the form via ajax in order to check
+		 * the created message is full standard compliance, sending the backend validation result back to the form in
+		 * case of errors.
+		 * Notice the client side validation from the GUI Tools library is just a lightweight javascript check of the
+		 * mandatory fields and content charsets. That client side validation does not check for example
+		 * network/semantic rules which are validated using the ValidationEngine class from the Prowide Integrator
+		 * validation module.
 		 */
 		ValidationEngine e = new ValidationEngine();
+		// If you enable character set extensions in the form configuration, you should switch off the character
+		// validation here accordingly
+		// e.getConfig().addIgnoredErrorKey(FieldProblem.T33.name());
 		List<ValidationProblem> p;
 		if (msg.isMT()) {
 			p = e.validateMtMessage(msg.message());
 		} else {
 			p = e.validateMxMessage(msg.message());
 		}
-		log.info(ValidationProblem.printout(p));
+		ValidationResult result = new ValidationResult(p);
+		if (!result.isValid()) {
+			log.info(ValidationProblem.printout(p));
+			// this JSON could be sent as service response
+			log.info(result.toJson(Locale.ENGLISH));
+		}
 		e.dispose();
 
 		// save the created message in the database
@@ -217,5 +254,38 @@ public class SandboxController {
 		// redirect to the detail page.
 		return "redirect:/detail/" + msg.getId();
     }
+
+	@GetMapping("/test")
+	protected ModelAndView messageDetailTest() {
+		String mt = "{1:F01ABCDJOC0AXXX0293022700}{2:I103ABCDJOC0XXXXN}{3:{103:JOD}{113:0112}{108:12345}{119:STP}{121:02eb4348-aeba-433a-9570-d597d38a28ba}}{4:\n" +
+				":20:12345ساسي\n" +
+				":23B:CRED\n" +
+				":26T:001\n" +
+				":32A:190110JOD1000,\n" +
+				":33B:JOD10000,\n" +
+				":50K:/987654321\n" +
+				"MINISTRY OF FINANCE COLLECTED REVEN\n" +
+				"BR CENTER\n" +
+				"شسيبس\n" +
+				":59:/876543219\n" +
+				"MINISTRY OF FINANCE COLLECTED REVEN\n" +
+				"NEW YORK USA\n" +
+				":70:0101\n" +
+				"INVOICE PAYMENT AND PURCHASE\n" +
+				":71A:OUR\n" +
+				"-}";
+
+		ModelAndView mv = new ModelAndView("detail");
+
+		mv.addObject("standard", "mt");
+		FormBuilder builder = createMtBuilder();
+		StringWriter out = new StringWriter();
+		MtSwiftMessage msg = new MtSwiftMessage(mt);
+		builder.writeDetail(out, msg);
+
+		mv.addObject("detail", out);
+		mv.addObject("id", msg.getId());
+		return mv;
+	}
 
 }

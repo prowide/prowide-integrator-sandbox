@@ -64,7 +64,13 @@ public class SandboxController {
 
 	private MxFormBuilder createMxBuilder() {
 		MxFormBuilder builder = new MxFormBuilder();
+
+		// example to enable non-SWIFT characters
 		//builder.getConfig().addCharacterRangeExtension(UnicodeBlockRange.Arabic);
+
+		// example to use the legacy SWIFT header instead of the ISO business header
+		//builder.getConfig().setUseLegacyHeader(true);
+
 		return builder;
 	}
 
@@ -81,8 +87,10 @@ public class SandboxController {
 		if (StringUtils.equals("mx", standard)) {
 			// create list for all MX types
 			for (MxType type : MxType.values()) {
-				String name = StringUtils.replace(type.name(), "_", ".");
-				messages.add(new Pair("/create/mx/" + type.name(), name));
+				if (type != MxType.head_001_001_01) {
+					String name = StringUtils.replace(type.name(), "_", ".");
+					messages.add(new Pair("/create/mx/" + type.name(), name));
+				}
 			}
 		} else {
 			// create list for all MT types but system messages
@@ -159,7 +167,9 @@ public class SandboxController {
 		if (msg.isMX()) {
 			mv.addObject("standard", "mx");
 			MxSwiftMessage mx = (MxSwiftMessage) msg;
-			createMxBuilder().writeMXForm(MxType.valueOf(mx.getIdentifier()), out, mx);
+			MxType type = MxType.valueOf(StringUtils.replace(mx.getIdentifier(), ".", "_"));
+			System.out.println(type);
+			createMxBuilder().writeMXForm(type, out, mx);
 
 		} else {
 			mv.addObject("standard", "mt");

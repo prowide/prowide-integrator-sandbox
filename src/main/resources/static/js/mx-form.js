@@ -9,7 +9,9 @@ $(document).ready(function() {
 	 */
 	$("div[fieldname='AppHdr'] div[fieldname='CharSet']").hide();
 	$("div[fieldname='AppHdr'] div[fieldname='CreDt']").hide();
+	$("div[fieldname='AppHdr'] div[fieldname='CrDate']").hide(); // legacy header version
 	$("div[fieldname='AppHdr'] div[fieldname='MsgDefIdr']").hide();
+	$("div[fieldname='AppHdr'] div[fieldname='MsgName']").hide(); // legacy header version
 
 	/*
 	 * Style customization from JS example:
@@ -17,6 +19,7 @@ $(document).ready(function() {
 	 */
 	$( "div[fieldname='To'] label:first").addClass("firstNode");
 	$( "div[fieldname='Fr'] label:first" ).addClass("firstNode");
+    $( "div[fieldname='From'] label:first" ).addClass("firstNode"); // legacy header version
 	$( "div[fieldname='AppHdr'] label:first").addClass("root_element");
 	$( "div[fieldname='Document'] label:first").addClass("root_element");
 

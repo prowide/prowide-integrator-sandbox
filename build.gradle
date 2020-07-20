@@ -1,5 +1,5 @@
 plugins {
-    id 'org.springframework.boot' version '2.1.6.RELEASE'
+    id 'org.springframework.boot' version '2.2.2.RELEASE'
     id 'java'
     id 'idea'
     id 'eclipse'
@@ -30,8 +30,7 @@ dependencies {
     //
     /////////////////////////////////////////////////////////////////////////
     
-    implementation files('../pw-swift-integrator/dist/build/libs/pw-swift-integrator-SRU2019-develop-licensed.jar')
-    implementation files('../pw-swift-guitools/build/libs/pw-swift-guitools-1.0.5.jar')
+    implementation fileTree('lib')
     
     /////////////////////////////////////////////////////////////////////////
 
@@ -54,13 +53,18 @@ dependencies {
     // JST taglib "fmt"
     compile group: 'javax.servlet', name: 'jstl', version: '1.2'
 
-    // Prowide Integrator SDK dependencies
-    compile 'org.apache.commons:commons-lang3:3.8.1'
-    compile 'org.apache.commons:commons-text:1.6'
-    compile 'com.google.code.gson:gson:2.8.2'
+    // Prowide Integrator - SDK
+    implementation('org.apache.commons:commons-lang3:3.8.1')
+    implementation('org.apache.commons:commons-text:1.6')
+    implementation('com.google.code.gson:gson:2.8.2')
 
-    // Prowide Integrator Validation dependencies
-    compile 'org.mozilla:rhino:1.7.7.2'
+    // Prowide Integrator - Validation
+    implementation('org.mozilla:rhino:1.7.7.2')
+
+    // Prowide Integrator - MyFormat
+    implementation('org.apache.poi:poi:3.17') {
+        transitive = false
+    }
 
     // Test & Development
     testImplementation 'org.springframework.boot:spring-boot-starter-test'

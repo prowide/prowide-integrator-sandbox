@@ -1,13 +1,13 @@
 package com.prowidesoftware.sandbox;
 
 import com.prowidesoftware.swift.model.MtSwiftMessage;
-import com.prowidesoftware.swift.model.MxId;
 import com.prowidesoftware.swift.model.MxSwiftMessage;
 import com.prowidesoftware.swift.model.field.Field20;
 import com.prowidesoftware.swift.model.field.Field79;
 import com.prowidesoftware.swift.model.mt.mt1xx.MT103_STP;
 import com.prowidesoftware.swift.model.mt.mt1xx.MT199;
-import com.prowidesoftware.swift.model.mx.BusinessHeader;
+import com.prowidesoftware.swift.model.mt.mt3xx.MT320;
+import com.prowidesoftware.swift.model.mx.AppHdrFactory;
 import com.prowidesoftware.swift.model.mx.MxPacs00800102;
 import com.prowidesoftware.swift.model.mx.MxType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -121,12 +121,38 @@ public class Seeder {
                 "\t</Document>";
 
         MxPacs00800102 mx1 = MxPacs00800102.parse(xml);
-        mx1.setBusinessHeader(BusinessHeader.create("SENDUSXXXXX", "RECVFRXXXXX", "BAHV10", MxType.pacs_008_001_02.mxId()));
+        mx1.setAppHdr(AppHdrFactory.createBusinessAppHdrV01("SENDUSXXXXX", "RECVFRXXXXX", "BAHV10", MxType.pacs_008_001_02.mxId()));
         repository.save(new MxSwiftMessage(mx1));
 
         MxPacs00800102 mx2 = MxPacs00800102.parse(xml);
-        mx2.setBusinessHeader(new BusinessHeader(BusinessHeader.createApplicationHeader("SENDUSXXXXX", "RECVFRXXXXX", "AH111", MxType.pacs_008_001_02.mxId())));
+        mx2.setAppHdr(AppHdrFactory.createLegacyAppHdr("SENDUSXXXXX", "RECVFRXXXXX", "AH111", MxType.pacs_008_001_02.mxId()));
         repository.save(new MxSwiftMessage(mx2));
+
+        MT320 mt320 = MT320.parse("{1:F01AAAAKWK0AXXX8464000001}{2:I320BBBBKWKWXFXSN}{4:\n" +
+                ":15A:\n" +
+                ":20:TSY/B712345\n" +
+                ":22A:NEWT\n" +
+                ":22B:CONF\n" +
+                ":22C:BBBBK00000BBBBKW\n" +
+                ":82A:BBBBKWKWXXX\n" +
+                ":87A:BBBBKWKW\n" +
+                ":15B:\n" +
+                ":17R:B\n" +
+                ":30T:20200707\n" +
+                ":30V:20200708\n" +
+                ":30P:20201008\n" +
+                ":32B:EUR8,00\n" +
+                ":30X:20201008\n" +
+                ":34E:EUR0,00\n" +
+                ":37G:0,00\n" +
+                ":14D:ACT/360\n" +
+                ":15C:\n" +
+                ":53A:BBBBDEFF\n" +
+                ":57A:BBBBDEFFXXX\n" +
+                ":15D:\n" +
+                ":57A:BBBBDEFF\n" +
+                "-}");
+        repository.save(new MtSwiftMessage(mt320));
     }
 
 }

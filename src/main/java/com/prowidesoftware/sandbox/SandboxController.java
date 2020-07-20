@@ -18,8 +18,8 @@ import com.prowidesoftware.swift.model.mx.MxType;
 import com.prowidesoftware.swift.validator.ValidationEngine;
 import com.prowidesoftware.swift.validator.ValidationProblem;
 import com.prowidesoftware.swift.validator.ValidationResult;
-import javafx.util.Pair;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -89,14 +89,14 @@ public class SandboxController {
 			for (MxType type : MxType.values()) {
 				if (type != MxType.head_001_001_01) {
 					String name = StringUtils.replace(type.name(), "_", ".");
-					messages.add(new Pair("/create/mx/" + type.name(), name));
+					messages.add(Pair.of("/create/mx/" + type.name(), name));
 				}
 			}
 		} else {
 			// create list for all MT types but system messages
 			for (MtType type : MtType.values()) {
 				if (!StringUtils.equals("0", type.category())) {
-					messages.add(new Pair("/create/mt/" + type.name(), type.nameFormatted()));
+					messages.add(Pair.of("/create/mt/" + type.name(), type.nameFormatted()));
 				}
 			}
 		}

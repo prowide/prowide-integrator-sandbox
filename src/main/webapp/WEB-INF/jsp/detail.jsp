@@ -4,9 +4,9 @@
         <script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
         <script src="/webjars/jquery/jquery.min.js"></script>
         <script src="/webjars/jquery-ui/jquery-ui.min.js"></script>
-        <link rel="stylesheet" type="text/css" href="/webjars/pw-swift-guitools/1.0.7/xsd-gui-lib.css" />
-        <link rel="stylesheet" type="text/css" href="/webjars/pw-swift-guitools/1.0.7/guitools-theme.css" />
-        <script src="/webjars/pw-swift-guitools/1.0.7/xsd-gui-lib-main.js"></script>
+        <link rel="stylesheet" type="text/css" href="/webjars/pw-swift-guitools/1.0.7-SNAPSHOT/xsd-gui-lib.css" />
+        <link rel="stylesheet" type="text/css" href="/webjars/pw-swift-guitools/1.0.7-SNAPSHOT/guitools-theme.css" />
+        <script src="/webjars/pw-swift-guitools/1.0.7-SNAPSHOT/xsd-gui-lib-main.js"></script>
         <script src="/js/${standard}-form.js"></script>
         <link rel="stylesheet" type="text/css" href="/css/main.css"/>
 	</head>

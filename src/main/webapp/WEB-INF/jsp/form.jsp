@@ -10,12 +10,12 @@
         <script src="/webjars/jquery.inputmask/3.3.7/min/jquery.inputmask.bundle.min.js"></script>
 
         <!-- GUI TOOLS -->
-        <link rel="stylesheet" type="text/css" href="/webjars/pw-swift-guitools/1.0.7/xsd-gui-lib.css" />
-        <link rel="stylesheet" type="text/css" href="/webjars/pw-swift-guitools/1.0.7/guitools-theme.css" />
-        <script src="/webjars/pw-swift-guitools/1.0.7/xsd-gui-lib-main.js"></script>
-        <script src="/webjars/pw-swift-guitools/1.0.7/xsd-gui-lib-validation.js"></script>
-        <script src="/webjars/pw-swift-guitools/1.0.7/vendor/jquery.datetimepicker-1.3.3.full.min.js"></script>
-        <link rel="stylesheet" type="text/css" href="/webjars/pw-swift-guitools/1.0.7/vendor/jquery.datetimepicker-1.3.3.css" />
+        <link rel="stylesheet" type="text/css" href="/webjars/pw-swift-guitools/1.0.7-SNAPSHOT/xsd-gui-lib.css" />
+        <link rel="stylesheet" type="text/css" href="/webjars/pw-swift-guitools/1.0.7-SNAPSHOT/guitools-theme.css" />
+        <script src="/webjars/pw-swift-guitools/1.0.7-SNAPSHOT/xsd-gui-lib-main.js"></script>
+        <script src="/webjars/pw-swift-guitools/1.0.7-SNAPSHOT/xsd-gui-lib-validation.js"></script>
+        <script src="/webjars/pw-swift-guitools/1.0.7-SNAPSHOT/vendor/jquery.datetimepicker-1.3.3.full.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="/webjars/pw-swift-guitools/1.0.7-SNAPSHOT/vendor/jquery.datetimepicker-1.3.3.css" />
 
         <!-- SAMPLE APP -->
         <script src="/js/forms.js"></script>

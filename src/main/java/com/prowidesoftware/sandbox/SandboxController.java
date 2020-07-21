@@ -128,34 +128,6 @@ public class SandboxController {
     }
 
 	/**
-	 * To test or debug message repairing from hardcoded message samples
-	 */
-	@GetMapping("/repair/test")
-	protected ModelAndView messageRepairDebug() throws IOException {
-		MtSwiftMessage mt = MtSwiftMessage.parse("{1:F01ABCDJOC0AXXX0293022700}{2:I103ABCDJOC0XXXXN}{3:{103:JOD}{113:0112}{108:12345}{119:STP}}{4:\n" +
-				":20:12345\n" +
-				":23B:CRED\n" +
-				":26T:001\n" +
-				":32A:190110JOD1000,\n" +
-				":33B:JOD10000,\n" +
-				":50K:/987654321\n" +
-				"FOO OF FINANCE COLLECTED REVEN\n" +
-				"BR CENTER\n" +
-				":59:/876543219\n" +
-				"FOO OF FINANCE COLLECTED REVEN2\n" +
-				"NEW YORK USA\n" +
-				":70:0101\n" +
-				"INVOICE PAYMENT AND PURCHASE\n" +
-				":71A:OUR\n" +
-				"-}");
-		ModelAndView mv = new ModelAndView("form");
-		StringWriter out = new StringWriter();
-		createMtBuilder().writeMTForm(MtType.valueOf(mt.getMtId()), out, mt);
-		mv.addObject("form", out);
-		return mv;
-	}
-
-	/**
 	 * Display a form for that persisted message given its id
 	 */
 	@GetMapping("/repair/{id}")
@@ -264,38 +236,5 @@ public class SandboxController {
 		// redirect to the detail page.
 		return "redirect:/detail/" + msg.getId();
     }
-
-	@GetMapping("/test")
-	protected ModelAndView messageDetailTest() {
-		String mt = "{1:F01ABCDJOC0AXXX0293022700}{2:I103ABCDJOC0XXXXN}{3:{103:JOD}{113:0112}{108:12345}{119:STP}{121:02eb4348-aeba-433a-9570-d597d38a28ba}}{4:\n" +
-				":20:12345ساسي\n" +
-				":23B:CRED\n" +
-				":26T:001\n" +
-				":32A:190110JOD1000,\n" +
-				":33B:JOD10000,\n" +
-				":50K:/987654321\n" +
-				"MINISTRY OF FINANCE COLLECTED REVEN\n" +
-				"BR CENTER\n" +
-				"شسيبس\n" +
-				":59:/876543219\n" +
-				"MINISTRY OF FINANCE COLLECTED REVEN\n" +
-				"NEW YORK USA\n" +
-				":70:0101\n" +
-				"INVOICE PAYMENT AND PURCHASE\n" +
-				":71A:OUR\n" +
-				"-}";
-
-		ModelAndView mv = new ModelAndView("detail");
-
-		mv.addObject("standard", "mt");
-		FormBuilder builder = createMtBuilder();
-		StringWriter out = new StringWriter();
-		MtSwiftMessage msg = new MtSwiftMessage(mt);
-		builder.writeDetail(out, msg);
-
-		mv.addObject("detail", out);
-		mv.addObject("id", msg.getId());
-		return mv;
-	}
 
 }

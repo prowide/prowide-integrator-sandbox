@@ -1,0 +1,63 @@
+<jboss-deployment-structure>
+
+	<deployment>
+
+		<exclude-subsystems>
+				<subsystem name="javax.xml.bind.api" />
+		</exclude-subsystems>
+
+		<exclusions>
+			<!-- jaxb module dependencies  -->
+		
+			<module  name="com.fasterxml.jackson.jaxrs.jackson-jaxrs-json-provider"/>
+			<module  name="com.sun.xml.bind"/>
+			<module  name="javaee.api"/>
+			<module  name="javax.ws.rs.api"/>
+			<module  name="javax.xml.bind.api"/>
+			<module  name="javax.xml.ws.api"/>
+			<module  name="org.apache.cxf.impl"/>
+			<module  name="org.apache.cxf"/>
+			<module  name="org.apache.openjpa"/>
+			<module  name="org.apache.santuario.xmlsec"/>
+			<module  name="org.apache.ws.security"/>
+			<module  name="org.codehaus.jackson.jackson-xc"/>
+			<module  name="org.dom4j"/>
+			<module  name="org.eclipse.persistence"/>
+			<module  name="org.hibernate" slot="4.1"/>
+			<module  name="org.hibernate" slot="4.3"/>
+			<module  name="org.hibernate.jipijapa-hibernate4-3"/>
+			<module  name="org.hibernate.jipijapa-hibernate5"/>
+			<module  name="org.hibernate"/>
+			<module  name="org.hibernate.validator"/>
+			<module  name="org.jboss.jaxbintros"/>
+			<module  name="org.jboss.metadata.appclient"/>
+			<module  name="org.jboss.metadata.ejb"/>
+			<module  name="org.jboss.narayana.rts"/>
+			
+			<!-- <module  name="org.jboss.resteasy.resteasy-jaxrs"/> -->
+			
+			<module  name="org.jboss.resteasy.jose-jwt"/>
+			<module  name="org.jboss.resteasy.resteasy-atom-provider"/>
+			<module  name="org.jboss.resteasy.resteasy-jackson-provider"/>
+			<module  name="org.jboss.resteasy.resteasy-jackson2-provider"/>
+			<module  name="org.jboss.resteasy.resteasy-jaxb-provider"/>
+			<module  name="org.jboss.resteasy.resteasy-jettison-provider"/>
+			<module  name="org.jboss.resteasy.resteasy-jsapi"/>
+			<module  name="org.jboss.resteasy.resteasy-multipart-provider"/>
+			<module  name="org.jboss.resteasy.resteasy-validator-provider-11"/>
+			<module  name="org.jboss.resteasy.resteasy-yaml-provider"/>
+			
+			<module  name="org.jboss.security.xacml"/>
+			<module  name="org.jboss.ws.cxf.jbossws-cxf-client"/>
+			<module  name="org.jboss.ws.cxf.jbossws-cxf-server"/>
+			<module  name="org.jboss.ws.jaxws-client"/>
+			<module  name="org.picketbox"/>
+			<module  name="org.picketlink.common"/>
+			<module  name="org.picketlink.federation.bindings"/>
+			<module  name="org.picketlink.federation"/>
+			
+			
+
+		</exclusions>
+	</deployment>
+</jboss-deployment-structure>

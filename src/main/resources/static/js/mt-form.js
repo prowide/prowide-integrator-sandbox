@@ -28,19 +28,5 @@ $(document).ready(function() {
 	$("div[level='1']").each(function() {
 		$(this).find("label:first").addClass('root_element');
 	});
-	
-	/*
-	 * Fields visibility manipulation example:
-	 * We hide several unused elements from the form
-	 */
-    $("div[xsdtype='InputIdentifier_Type']").hide();    // hide the direction select
-    $("input[name='/Block2/MessageType-in']").prop('readonly', true);   // make message type readonly
-	$("div[fieldname='Block1'] div[fieldname='ApplicationIdentifier']").hide();
-	$("div[fieldname='Block1'] div[fieldname='ServiceIdentifier']").hide();
-	$("div[fieldname='Block1'] div[fieldname='SessionNumber']").hide();
-	$("div[fieldname='Block1'] div[fieldname='SequenceNumber']").hide();
-	$("div[fieldname='F16a_1']").hide();
-	$("div[fieldname='F16a_2']").hide();
-	$("div[fieldname='F15a']").hide();
 
 });

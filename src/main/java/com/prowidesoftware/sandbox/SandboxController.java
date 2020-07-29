@@ -59,6 +59,10 @@ public class SandboxController {
 		 * that only admits SWIFT character sets
 		 */
 		//builder.getConfig().addCharacterRangeExtension(UnicodeBlockRange.Arabic);
+
+		// to enable edit for output (inbound) messages
+		builder.getConfig().setEnableBlock2Output(true);
+
 		return builder;
 	}
 

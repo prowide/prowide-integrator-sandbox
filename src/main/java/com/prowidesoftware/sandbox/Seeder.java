@@ -2,6 +2,8 @@ package com.prowidesoftware.sandbox;
 
 import com.prowidesoftware.swift.model.MtSwiftMessage;
 import com.prowidesoftware.swift.model.MxSwiftMessage;
+import com.prowidesoftware.swift.model.SwiftMessage;
+import com.prowidesoftware.swift.model.SwiftMessageFactory;
 import com.prowidesoftware.swift.model.field.Field20;
 import com.prowidesoftware.swift.model.field.Field79;
 import com.prowidesoftware.swift.model.mt.mt1xx.MT103_STP;
@@ -57,6 +59,10 @@ public class Seeder {
                 "-}");
         mt.getSwiftMessage().setUETR();
         repository.save(new MtSwiftMessage(mt.getSwiftMessage()));
+
+        SwiftMessage mtoutput = SwiftMessageFactory.toggleDirection(mt.getSwiftMessage());
+        mtoutput.getBlock4().getTagByName(Field20.NAME).setValue("OUT1234");
+        repository.save(new MtSwiftMessage(mtoutput));
 
         // add a couple of MX messages with different header flavor
 

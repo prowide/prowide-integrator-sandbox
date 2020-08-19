@@ -1,5 +1,5 @@
 plugins {
-    id 'org.springframework.boot' version '2.2.2.RELEASE'
+    id 'org.springframework.boot' version '2.3.3.RELEASE'
     id 'java'
     id 'war'
     id 'idea'
@@ -37,10 +37,6 @@ dependencies {
     
     /////////////////////////////////////////////////////////////////////////
 
-    // Spring Boot for WildFly container:
-    implementation ('org.springframework.boot:spring-boot-starter-web') {
-        exclude module: "spring-boot-starter-tomcat"
-    }
     compileOnly group: 'javax.servlet', name: 'javax.servlet-api', version: '3.1.0'
     implementation 'javax.xml.bind:jaxb-api:2.2.5'
     implementation 'com.sun.xml.bind:jaxb-impl:2.2.5'
@@ -49,7 +45,28 @@ dependencies {
     // With embedded Tomcat
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-tomcat'
-    implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
+
+    // To generate a war for WildFly container instead of the abode, use this:
+    //implementation ('org.springframework.boot:spring-boot-starter-web') {
+    //    exclude module: "spring-boot-starter-tomcat"
+    //}
+
+    /*
+     * Tomcat jasper is required for the JSP to work
+     * When war is used in command line and started with the embeded tomcat everything works just fine.
+     * However then deployed in Tomcat as a regular war, since Spring Boot 2.3.3 this hits the Tomcat issue:
+     * https://bz.apache.org/bugzilla/show_bug.cgi?id=64097
+     *
+     * This issue is fixed in Tomcat:
+     * - master for 10.0.0.0-M1 onwards
+     * - 9.0.x for 9.0.31 onwards
+     * - 8.5.x for 8.5.51 onwards
+     * - 7.0.x for 7.0.100 onwards
+     *
+     * In order to support the dual-war that can be either deployed in Tomcat or run with embedded Tomcat through command
+     * line we need to make this jasper dependency provided in Runtime so that it is not available in war deployment
+     */
+    providedRuntime 'org.apache.tomcat.embed:tomcat-embed-jasper'
 
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation group: 'com.h2database', name: 'h2', version: '1.4.199'
